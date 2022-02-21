@@ -64,6 +64,10 @@ let sred = document.getElementById('sred')
 let kek = sum/5;
 sred.textContent = kek
 
+let logo = document.getElementById('logo').src='http://217.71.129.139:4035/' + students[id].logo
+
+
+
 }
 let idk = 0;
 function next() {

@@ -1,14 +1,26 @@
 
-let students = [
-	{id: 1, name:"Андрей", surname:"Артамонов"},
-{id: 2, name:"Дарья", surname:"Архипова"},
-{id: 3, name:"Николай", surname:"Баркалов"},
-{id: 4, name:"Георгий", surname:"Бочкарев"},
-{id: 5, name:"Матвей", surname:"Гаврилов"}
+let students = []
+let id_current = 0
 
-]
+function load_from_site() {
+	let xhr = new XMLHttpRequest();
+	xhr.open ('Get', 'http://217.71.129.139:4035/students.php');
+	xhr.send();
 
-	function load_all() {
+	xhr.onload = function () {
+		if (xhr.status != 200) {
+			alert ('Oшибка ${xhr.status}: ${xhr.statusText}');
+		}
+		else {
+				students = JSON.parse(xhr.responseText)['response']
+		}
+	}
+		
+		xhr.onerror = function () {
+			alert("Запрос не удался");
+		};
+}
+function load_all() {
 		let table = document.getElementById('tbl_al')
 		for (let i = 0; i < students.length; i++){
 		let id =  students[i].id
@@ -38,8 +50,20 @@ function load_student(id){
 	head.textContent = "Информация о студенте №" + students[id].id
 	let name = document.getElementById('name')
 	name.textContent =" "+ students[id].name
-		let surname = document.getElementById('surname')
+	let surname = document.getElementById('surname')
 	surname.textContent = " "+students[id].surname
+	let scores = document.getElementById('scores')
+	let sum = 0
+	for (let i = 0; i <students[id].scores.length; i ++) {
+		//console.log(students[id].scores[i]);
+		sum = sum  + students[id].scores[i]
+	}
+		console.log(sum);
+scores.textContent = students[id].scores
+let sred = document.getElementById('sred')
+let kek = sum/5;
+sred.textContent = kek
+
 }
 let idk = 0;
 function next() {
@@ -52,7 +76,7 @@ function next() {
 }
 function prev() {
 	idk=idk -1;
-	if (idk < 5 ) {document.getElementById('btn_next').disabled = false;}
+	if (idk < students.length ) {document.getElementById('btn_next').disabled = false;}
 	if (idk === 0){
 		document.getElementById('btn_prev').disabled = true;
 	}

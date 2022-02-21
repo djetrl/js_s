@@ -1,0 +1,41 @@
+body{
+	display: flex;
+justify-content: center;
+background-color: lightblue;
+flex-flow: column;
+
+}
+.obv{
+	position: relative;
+	text-align: center;
+
+
+}
+
+
+
+
+.title{
+	font-weight: bold;
+	margin: 10px;
+	font-size: 20px;
+}
+.btn{
+	width: 100px;
+	height: auto;
+	margin-top: 20px;
+
+
+}
+.btn:hover{
+	background-color: pink;
+ opacity: .7
+}
+img{
+	position: relative;
+	left: 40%;
+	margin-top: 50px;
+width: 400px;
+height:400px;
+
+}

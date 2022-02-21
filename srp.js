@@ -1,16 +1,19 @@
-let id = 1;
-function SaySoft(){
-let table = document.getElementById("tbl") ;
-let name = document.getElementById("name").value;
-let tr = document.createElement("tr") ;
-let td1= document.createElement("td") ;
-let td2 = document.createElement("td") ;
-td1.textContent = id;
-td2.textContent = name;
-tr.appendChild(td1);
-tr.appendChild(td2);
-table.appendChild(tr);
-	id += 1;
+let students = [
+	{id: 1, name:"Андрей", surname:"Артамонов"},
+{id: 2, name:"Дарья", surname:"Архипова"},
+{id: 3, name:"Николай", surname:"Баркалов"},
+{id: 4, name:"Георгий", surname:"Бочкарев"},
+{id: 5, name:"Матвей", surname:"Гаврилов"}
 
-}
+]
+	for (let i = 0; i < students.length; i++){
+		let id =  students[i].id
+		let name =  students[i].name
+		let surname =  students[i].surname
 
+
+		console.log('Номер ' + id )
+		console.log('Имя ' +  name)
+		console.log('Фамилия ' +  surname)
+		console.log('---------------------------')
+	}

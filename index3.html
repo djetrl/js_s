@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Это заголовок тайтл</title>
+			<script src="jquery-3.6.0.js"></script>
+			<script>
+    // мы пытаемся найти все элементы <h2> на странице
+    // и изменить цвет шрифта на красный
+    jQuery("h2").css("color", "red");
+</script>
+		<script src="js_test.js"></script>
+	</head>
+	<body>
+<article>Article Title</article>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur semper imperdiet felis, sit amet imperdiet arcu varius et. Donec condimentum pulvinar sollicitudin. Nunc facilisis erat vel nunc mollis, dapibus consequat justo finibus. Donec suscipit rhoncus nisl eu scelerisque. Curabitur semper urna ac ante aliquam sollicitudin. Ut eu lacus ipsum. Suspendisse potenti. Maecenas sed dictum nulla, vel imperdiet lacus. Cras aliquet semper ipsum, at rutrum tellus.</p>	
+<a href="#">Click</a>
+<script>
+$("a").click(function(event) {        // ваш обработчик события
+    alert("Hello!");                  // он избранный
+    event.stopImmediatePropagation(); // он должен остаться только один
+    return false;
+})
+
+$("a").click(function(event) { // а это чужой обработчик событий
+    alert("Hello again!");     // он делает всё неправильно
+    return false;
+})
+$("article").click(function(event) {
+    alert("Article!");
+})
+</script>
+	</body>
+</html>

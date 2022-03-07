@@ -1,96 +1,63 @@
-
-let students = []
-let id_current = 0
-
-function load_from_site() {
-	$.get ('http://217.71.129.139:4035/students.php', function(data){
-		students = JSON.parse(data)['response']
+// загрузка данных с сервера
+function loadStudents() {
+	$.get('http://217.71.129.139:4035/api/students.php', function (data) {
+		let students = JSON.parse(data)['students'];
+		showTable(students)
 	});
-	
 }
-function load_all() {
-	load_from_site()
-		let table = document.getElementById('tbl_all')
-		for (let i = 0; i < students.length; i++){
-		let id =  students[i].id
-		let name =  students[i].name
-		let surname =  students[i].surname
-	//создадим строку и 3 ячейки
-	 let tr = document.createElement('tr')
-	let td1 = document.createElement('td')
-	let td2 = document.createElement('td')
-	let td3 = document.createElement('td')
-	let btn = document.createElement('button')
-	btn.textContent = 'Подробнo'
-	$(btn).on("click", function() {
-		show_info(i)
-	});
-	//запишем данные в ячейки
-	td1.textContent = id
-	td2.textContent = name
-	td3.textContent = surname
-	//вставим ячейки в строку
-	tr.appendChild(td1);
-	tr.appendChild(td2);
-	tr.appendChild(td3);
-	tr.appendChild(td4);
-	//вставим строку в таблицу
-	table.appendChild(tr)
 
+// отрисовка таблицы
+function showTable(students) {
+	let table = $('#tbl_all>tbody')
+	for (let i = 0; i < students.length; i++) {
+		// создадим новую строку
+		let tr = $('<tr>')
+		// создадим 5 ячеек и кнопку
+		let td1 = $('<td>' + students[i].id + '</td>')
+		let td2 = $('<td>' + students[i].name + '</td>')
+		let td3 = $('<td>' + students[i].surname + '</td>')
+		let td4 = $('<td>' + students[i].group + '</td>')
+		let td5 = $('<td></td>')
+		let btn = $('<button>Подробно</button>')
+		btn.click(function () {
+			showInfo(students[i])
+		})
+
+		td5.append(btn)
+		// прикрепим ячейки к строке
+		tr.append(td1).append(td2).append(td3).append(td4).append(td5)
+
+		// прикрепим строку к таблице
+		table.append(tr)
+	}
 }
-function show_info(id)
-$('#btn').attr('disabled' , false)
-	}
 
-let name = document.getElementById('name')
-function load_student(id){
-	let head = $('#zagolovok')
-	head.prop('textContent', "Информация о студенте №" + students[id].id)
+function showInfo(student) {
+	// находим блок
+	let div = $('#info')
+	// очистим блок
+	div.html('')
 
-	let name = $('#name')
-	name.prop('textContent', " "+ students[id].name)
-	let surname = $('#surname')
-	surname.prop('textContent',  " "+students[id].surname)
-	let scores = $('#scores')
-	let sum = 0
-	for (let i = 0; i <students[id].scores.length; i ++) {
-		//console.log(students[id].scores[i]);
-		sum = sum  + students[id].scores[i]
-	}
-		console.log(sum);
-scores.prop('textContent',  students[id].scores)
-let sred = $('#sred')
-let kek = sum/5;
-sred.prop('textContent', kek)
-
-let logo = $('#logo').attr('src','http://217.71.129.139:4035/' + students[id].logo)
-
-
-
+	let head = $('<h1>Информация о студенте № ' + student.id + '</h1>')
+	let name = $('<span>Имя: </span><input id="s_name" value="' + student.name + '"></input><br>')
+	let surname = $('<span>Фамилия: </span><input id="s_surname" value="' + student.surname + '"></input><br>')
+	let btn_save = $('<button>Сохранить</button>')
+	// повесим обработчик события на кнопку сохранить
+	btn_save.click(function () {
+		save(student)
+	})
+	// прикрепим элементы к блоку
+	div.append(head).append(name).append(surname).append(btn_save)
 }
-let idk = 0;
-function next() {
-	idk++;
-	if (idk > 0 ) {$('#btn_prev').attr('disabled' , false)}
-	if ( idk === students.length-1) {
-		$("#btn_next").attr('disabled',  true)
-	}
-	load_student(idk)
-}
-function prev() {
-	idk=idk -1;
-	if (idk < students.length ) {$("#btn_next").attr('disabled',  false)}
-	if (idk === 0){
-		$('#btn_prev').attr('disabled' , true);
-	}
-	load_student(idk)
-}
-function all_upd(){
-	if(all_flag == false){
-		load_all()
-		all_flag ==true
-		$('btn_all_upd').Attr({'disabled':true})
-	}
 
+// отправка запроса на изменение
+function save(student) {
+	let id = student.id
+	let name = $('#s_name').val()
+	let surname = $('#s_surname').val()
 
+	$.get('http://217.71.129.139:4035/api/students_update.php?id=' + id + '&name=' + name +
+		'&surname=' + surname, function (data) {
+			alert(data)
+		});
 }
